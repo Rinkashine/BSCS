@@ -1,100 +1,71 @@
-var Pre_Read = document.getElementById("Pre_Colonial")
-var Spa_Read = document.getElementById("Spanish")
-var Ame_Read = document.getElementById("American")
-var Jap_Read = document.getElementById("Japanese")
-var Pos_Read = document.getElementById("Present")
+const card = document.getElementById("card-container");
+const postWarToPresent = document.querySelectorAll('#Post')
+const postWarToPresentRead = document.querySelector('#Present')
+const postWarToPresentReturn = document.querySelectorAll('#present_return')
+const main = document.querySelector('.main');
 
-var card = document.getElementById("card-container");
-
-var Pre_Container = document.getElementById("Pre");
-var Spa_Container = document.getElementById("Spa");
-var Ame_Container = document.getElementById("Ame");
-var Jap_Container = document.getElementById("Jap");
-var Pos_Container = document.getElementById("Post");
-var Pos2_Container = document.getElementById("1973");
-var Pos3_Container = document.getElementById("1986_Constitution");
-var Pos4_Container = document.getElementById("1987");
-Pre_Read.onclick = function(event){
+const COUNTRIES = [
+          {
+               name:"PRE",
+               container: document.getElementById("Pre")
+          },
+          {
+               name:"SPAIN",
+               container: document.getElementById("Spa")
+          },
+          {
+               name:"AMERICA",
+               container: document.getElementById("Ame")
+          },
+          {
+               name:"JAPAN",
+               container: document.getElementById("Jap")
+          }
+]
+//helper function sleep
+function sleep(ms) {  return new Promise(resolve => setTimeout(resolve, ms));}
+//close function
+function close(container){
+  let isAnimationFinished = async()=>{
+          container.style.animation = "close 2s linear";      
+          await sleep(2000);
+          return true;
+     }
+     isAnimationFinished().then(()=>{
+          container.style.display = "none";
+          card.style.display ="flex";
+          main.style.animation = "reloadBody 2s linear";
+     })
+}
+//open function
+function open(container){
      card.style.display ="none";
-     Pre_Container.style.display = "flex";
+     container.style.display = "flex";
+     container.style.animation = "open 2s linear";
 }
-
-Spa_Read.onclick = function(event){
-     card.style.display ="none";
-     Spa_Container.style.display = "flex";
-}
-
-Ame_Read.onclick = function(event){
-     card.style.display ="none";
-     Ame_Container.style.display = "flex";
-}
-
-Jap_Read.onclick = function(event){
-     card.style.display ="none";
-     Jap_Container.style.display = "flex";
-}
-
-Pos_Read.onclick = function(event){
-     card.style.display ="none";
-     Pos_Container.style.display = "flex";
-     Pos2_Container.style.display = "flex";
-      Pos3_Container.style.display = "flex";
-     Pos4_Container.style.display = "flex";
-}
-
-var Pre_return = document.getElementById("pre_return");
-var Spa_return = document.getElementById("spanish_return");
-var Ame_return = document.getElementById("american_return");
-var Jap_return = document.getElementById("japanese_return");
-var Pos_return = document.getElementById("present_return");
-var Pos2_return = document.getElementById("present_return2");
-var Pos3_return = document.getElementById("present_return3");
-var Pos4_return = document.getElementById("present_return4");
-Pre_return.onclick = function(event){
-    card.style.display ="flex";
-    Pre_Container.style.display = "none";
-}
-
-Spa_return.onclick = function(event){
-    card.style.display ="flex";
-     Spa_Container.style.display = "none";
-}
-
-Ame_return.onclick = function(event){
-    card.style.display ="flex";
-     Ame_Container.style.display = "none";
-}
-
-Jap_return.onclick = function(event){
-    card.style.display ="flex";
-     Jap_Container.style.display = "none";
-}
-
-Pos_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos2_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-        Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos3_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos4_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
+//return function
+function returnToMain(name){
+     COUNTRIES.forEach((country)=>{
+          if(country.name === name){
+               close(country.container)
+          }
+          if(name === "PRESENT"){
+           postWarToPresent.forEach((containerElement)=>{
+               close(containerElement)
+          }) 
+          }
+     })
+ }
+ //read function
+ function readArticle(name){
+      COUNTRIES.forEach((country)=>{
+           if(country.name === name){
+                open(country.container)
+           }
+           if(name === 'PRESENT'){
+               postWarToPresent.forEach((containerElement)=>{
+               open(containerElement)
+               }) 
+           }
+      })
+ }
