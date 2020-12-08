@@ -1,100 +1,81 @@
-var Pre_Read = document.getElementById("Pre_Colonial")
-var Spa_Read = document.getElementById("Spanish")
-var Ame_Read = document.getElementById("American")
-var Jap_Read = document.getElementById("Japanese")
-var Pos_Read = document.getElementById("Present")
+const card = document.querySelector('#card-container');
+const main = document.querySelector('.main');
+const COUNTRIES = [ // country objects
+          {
+               name:"PRE",
+               container: document.querySelector('#Pre')
+          },
+          {
+               name:"SPAIN",
+               container: document.querySelector('#Spa')
+          },
+          {
+               name:"AMERICA",
+               container: document.querySelector('#Ame')
+          },
+          {
+               name:"JAPAN",
+               container: document.querySelector('#Jap')
+          }
+          ,
+          {
+               name:"PRESENT",
+               container: document.querySelectorAll('#Post')
+          }
+     
+]
+sleep=(ms)=>new Promise(resolve => setTimeout(resolve, ms)); //helper function sleep timeout
+isArrayOfDOM=(container)=>container.length === undefined ? true : false; //helper function  to check if DOM array or not
 
-var card = document.getElementById("card-container");
-
-var Pre_Container = document.getElementById("Pre");
-var Spa_Container = document.getElementById("Spa");
-var Ame_Container = document.getElementById("Ame");
-var Jap_Container = document.getElementById("Jap");
-var Pos_Container = document.getElementById("Post");
-var Pos2_Container = document.getElementById("1973");
-var Pos3_Container = document.getElementById("1986_Constitution");
-var Pos4_Container = document.getElementById("1987");
-Pre_Read.onclick = function(event){
+close = (container)=>{ //close function
+  let isAnimationFinished = async()=>{
+     if(isArrayOfDOM(container)){ //if container is not array of DOM
+          container.style.animation = "close 2s linear";      
+          await sleep(2000);//wait 2 seconds before return promise
+          return false;
+     }
+          container.forEach((containerElement)=>{ // if container is array of DOM 
+          containerElement.style.animation = "close 2s linear";     
+     }) 
+          await sleep(2000); //wait 2 seconds before return promise
+          return true;
+}    
+isAnimationFinished().then((isArray)=>{
+     card.style.display ="flex";
+     main.style.animation = "reloadBody 2s linear";// animate body
+      if(isArray){
+               // check again if array of DOM
+               container.forEach((containerElements)=>{
+               containerElements.style.display = "none" //hide container elements
+               })
+               return
+     }
+          container.style.display = "none";// if is not array of DOM
+     })
+}
+open=(container)=>{ //open function
      card.style.display ="none";
-     Pre_Container.style.display = "flex";
+     if(isArrayOfDOM(container)){//if is not array of DOM
+     container.style.display = "flex";
+     container.style.animation = "open 2s linear";
+     return 
 }
-
-Spa_Read.onclick = function(event){
-     card.style.display ="none";
-     Spa_Container.style.display = "flex";
+      container.forEach((containerElement)=>{ // if is array of DOM
+          containerElement.style.display = "flex";
+          containerElement.style.animation = "open 2s linear";
+      })
 }
-
-Ame_Read.onclick = function(event){
-     card.style.display ="none";
-     Ame_Container.style.display = "flex";
-}
-
-Jap_Read.onclick = function(event){
-     card.style.display ="none";
-     Jap_Container.style.display = "flex";
-}
-
-Pos_Read.onclick = function(event){
-     card.style.display ="none";
-     Pos_Container.style.display = "flex";
-     Pos2_Container.style.display = "flex";
-      Pos3_Container.style.display = "flex";
-     Pos4_Container.style.display = "flex";
-}
-
-var Pre_return = document.getElementById("pre_return");
-var Spa_return = document.getElementById("spanish_return");
-var Ame_return = document.getElementById("american_return");
-var Jap_return = document.getElementById("japanese_return");
-var Pos_return = document.getElementById("present_return");
-var Pos2_return = document.getElementById("present_return2");
-var Pos3_return = document.getElementById("present_return3");
-var Pos4_return = document.getElementById("present_return4");
-Pre_return.onclick = function(event){
-    card.style.display ="flex";
-    Pre_Container.style.display = "none";
-}
-
-Spa_return.onclick = function(event){
-    card.style.display ="flex";
-     Spa_Container.style.display = "none";
-}
-
-Ame_return.onclick = function(event){
-    card.style.display ="flex";
-     Ame_Container.style.display = "none";
-}
-
-Jap_return.onclick = function(event){
-    card.style.display ="flex";
-     Jap_Container.style.display = "none";
-}
-
-Pos_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos2_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-        Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos3_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
-Pos4_return.onclick = function(event){
-    card.style.display ="flex";
-     Pos_Container.style.display = "none";
-    Pos2_Container.style.display = "none";
-     Pos3_Container.style.display = "none";
-     Pos4_Container.style.display = "none";
-}
+returnToMain=(name)=>{//return function
+     COUNTRIES.forEach((country)=>{
+          if(country.name === name){ //check if args passed by onClick is equal to country.name on object of countries
+               close(country.container)
+          }
+     })
+ }
+ readArticle=(name)=>{ //read function
+      COUNTRIES.forEach((country)=>{
+           if(country.name === name){ //check if args passed by onClick is equal to country.name on object of countries
+                open(country.container)
+           }
+      })
+ }

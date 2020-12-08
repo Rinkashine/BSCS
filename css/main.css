@@ -161,3 +161,36 @@ img{
     }
     
 }
+
+@keyframes open{
+    from{
+        display: none;
+        opacity: 0.1;
+    }
+    to{
+        display: flex;
+        opacity: 1.0;
+    }
+}
+@keyframes reloadBody{
+    from{
+        display: none;
+        opacity: 0.1;
+    }
+    to{
+        display: block;
+        opacity: 1.0;
+    }
+}
+@keyframes close{
+    from{
+        display: flex;
+        opacity: 1.0;
+   
+    }
+    to{
+        display: none;
+        opacity: 0.1;
+    }
+}
+
